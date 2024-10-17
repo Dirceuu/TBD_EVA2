@@ -1,0 +1,461 @@
+EVA2_8_INNERJO_IN
+
+MySQL Shell 8.0.38
+
+Copyright (c) 2016, 2024, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its affiliates.
+Other names may be trademarks of their respective owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+ MySQL  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Fetching global names for auto-completion... Press ^C to stop.
+Your MySQL connection id is 8
+Server version: 8.0.39 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > use sakila;
+Default schema set to `sakila`.
+Fetching global names, object names from `sakila` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  sakila  SQL > desc customer;
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| Field       | Type              | Null | Key | Default           | Extra                                         |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| customer_id | smallint unsigned | NO   | PRI | NULL              | auto_increment                                |
+| store_id    | tinyint unsigned  | NO   | MUL | NULL              |                                               |
+| first_name  | varchar(45)       | NO   |     | NULL              |                                               |
+| last_name   | varchar(45)       | NO   | MUL | NULL              |                                               |
+| email       | varchar(50)       | YES  |     | NULL              |                                               |
+| address_id  | smallint unsigned | NO   | MUL | NULL              |                                               |
+| active      | tinyint(1)        | NO   |     | 1                 |                                               |
+| create_date | datetime          | NO   |     | NULL              |                                               |
+| last_update | timestamp         | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+9 rows in set (1.9197 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > desc payment;
++--------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| Field        | Type              | Null | Key | Default           | Extra                                         |
++--------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| payment_id   | smallint unsigned | NO   | PRI | NULL              | auto_increment                                |
+| customer_id  | smallint unsigned | NO   | MUL | NULL              |                                               |
+| staff_id     | tinyint unsigned  | NO   | MUL | NULL              |                                               |
+| rental_id    | int               | YES  | MUL | NULL              |                                               |
+| amount       | decimal(5,2)      | NO   |     | NULL              |                                               |
+| payment_date | datetime          | NO   |     | NULL              |                                               |
+| last_update  | timestamp         | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++--------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+7 rows in set (0.0061 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select a.customer_id, a.first_name, a.last_name, b. amount from customer a inner join payment b on a.customer_id = b.customer_id limit 50;
++-------------+------------+-----------+--------+
+| customer_id | first_name | last_name | amount |
++-------------+------------+-----------+--------+
+|           1 | MARY       | SMITH     |   2.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   5.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   9.99 |
+|           1 | MARY       | SMITH     |   4.99 |
+|           1 | MARY       | SMITH     |   4.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   3.99 |
+|           1 | MARY       | SMITH     |   5.99 |
+|           1 | MARY       | SMITH     |   5.99 |
+|           1 | MARY       | SMITH     |   4.99 |
+|           1 | MARY       | SMITH     |   4.99 |
+|           1 | MARY       | SMITH     |   7.99 |
+|           1 | MARY       | SMITH     |   2.99 |
+|           1 | MARY       | SMITH     |   4.99 |
+|           1 | MARY       | SMITH     |   4.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   2.99 |
+|           1 | MARY       | SMITH     |   2.99 |
+|           1 | MARY       | SMITH     |   4.99 |
+|           1 | MARY       | SMITH     |   3.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   4.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   2.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   1.99 |
+|           1 | MARY       | SMITH     |   2.99 |
+|           1 | MARY       | SMITH     |   5.99 |
+|           2 | PATRICIA   | JOHNSON   |   4.99 |
+|           2 | PATRICIA   | JOHNSON   |   2.99 |
+|           2 | PATRICIA   | JOHNSON   |   2.99 |
+|           2 | PATRICIA   | JOHNSON   |   6.99 |
+|           2 | PATRICIA   | JOHNSON   |   4.99 |
+|           2 | PATRICIA   | JOHNSON   |   5.99 |
+|           2 | PATRICIA   | JOHNSON   |   5.99 |
+|           2 | PATRICIA   | JOHNSON   |   5.99 |
+|           2 | PATRICIA   | JOHNSON   |   2.99 |
+|           2 | PATRICIA   | JOHNSON   |   5.99 |
+|           2 | PATRICIA   | JOHNSON   |   4.99 |
+|           2 | PATRICIA   | JOHNSON   |  10.99 |
+|           2 | PATRICIA   | JOHNSON   |   0.99 |
+|           2 | PATRICIA   | JOHNSON   |   6.99 |
+|           2 | PATRICIA   | JOHNSON   |   6.99 |
+|           2 | PATRICIA   | JOHNSON   |   2.99 |
+|           2 | PATRICIA   | JOHNSON   |   0.99 |
+|           2 | PATRICIA   | JOHNSON   |   0.99 |
++-------------+------------+-----------+--------+
+50 rows in set (1.4683 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select a.customer_id, a.first_name, a.last_name, sum b.amount from customer a inner join payment b on a.customer_id = b.customer_id limit 50 group by customer_id;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.amount from customer a inner join payment b on a.customer_id = b.customer_id li' at line 1
+ MySQL  localhost:3306 ssl  sakila  SQL > select a.customer_id, a.first_name, a.last_name, sum (b. amount) from customer a inner join payment b on a.customer_id = b.customer_id group by a.customer_id limit 50;
+ERROR: 1630 (42000): FUNCTION sakila.sum does not exist. Check the 'Function Name Parsing and Resolution' section in the Reference Manual
+ MySQL  localhost:3306 ssl  sakila  SQL > select a.customer_id, a.first_name, a.last_name, sum (b.amount) from customer a inner join payment b on a.customer_id = b.customer_id group by a.customer_id limit 50;
+ERROR: 1630 (42000): FUNCTION sakila.sum does not exist. Check the 'Function Name Parsing and Resolution' section in the Reference Manual
+ MySQL  localhost:3306 ssl  sakila  SQL > select a.customer_id, a.first_name, a.last_name, sum(b.amount) from customer a inner join payment b on a.customer_id = b.customer_id group by a.customer_id limit 50;
++-------------+------------+-----------+---------------+
+| customer_id | first_name | last_name | sum(b.amount) |
++-------------+------------+-----------+---------------+
+|           1 | MARY       | SMITH     |        118.68 |
+|           2 | PATRICIA   | JOHNSON   |        128.73 |
+|           3 | LINDA      | WILLIAMS  |        135.74 |
+|           4 | BARBARA    | JONES     |         81.78 |
+|           5 | ELIZABETH  | BROWN     |        144.62 |
+|           6 | JENNIFER   | DAVIS     |         93.72 |
+|           7 | MARIA      | MILLER    |        151.67 |
+|           8 | SUSAN      | WILSON    |         92.76 |
+|           9 | MARGARET   | MOORE     |         89.77 |
+|          10 | DOROTHY    | TAYLOR    |         99.75 |
+|          11 | LISA       | ANDERSON  |        106.76 |
+|          12 | NANCY      | THOMAS    |        103.72 |
+|          13 | KAREN      | JACKSON   |        131.73 |
+|          14 | BETTY      | WHITE     |        117.72 |
+|          15 | HELEN      | HARRIS    |        134.68 |
+|          16 | SANDRA     | MARTIN    |        118.72 |
+|          17 | DONNA      | THOMPSON  |         98.79 |
+|          18 | CAROL      | GARCIA    |         91.78 |
+|          19 | RUTH       | MARTINEZ  |        125.76 |
+|          20 | SHARON     | ROBINSON  |        115.70 |
+|          21 | MICHELLE   | CLARK     |        155.65 |
+|          22 | LAURA      | RODRIGUEZ |        113.78 |
+|          23 | SARAH      | LEWIS     |        119.70 |
+|          24 | KIMBERLY   | LEE       |         95.75 |
+|          25 | DEBORAH    | WALKER    |        115.71 |
+|          26 | JESSICA    | HALL      |        152.66 |
+|          27 | SHIRLEY    | ALLEN     |        126.69 |
+|          28 | CYNTHIA    | YOUNG     |        111.68 |
+|          29 | ANGELA     | HERNANDEZ |        140.64 |
+|          30 | MELISSA    | KING      |        123.66 |
+|          31 | BRENDA     | WRIGHT    |        104.74 |
+|          32 | AMY        | LOPEZ     |        127.71 |
+|          33 | ANNA       | HILL      |         91.79 |
+|          34 | REBECCA    | SCOTT     |         89.76 |
+|          35 | VIRGINIA   | GREEN     |        129.68 |
+|          36 | KATHLEEN   | ADAMS     |         92.73 |
+|          37 | PAMELA     | BAKER     |         95.77 |
+|          38 | MARTHA     | GONZALEZ  |        127.66 |
+|          39 | DEBRA      | NELSON    |        141.71 |
+|          40 | AMANDA     | CARTER    |        110.73 |
+|          41 | STEPHANIE  | MITCHELL  |        118.75 |
+|          42 | CAROLYN    | PEREZ     |        117.70 |
+|          43 | CHRISTINE  | ROBERTS   |         99.76 |
+|          44 | MARIE      | TURNER    |        114.74 |
+|          45 | JANET      | PHILLIPS  |        127.73 |
+|          46 | CATHERINE  | CAMPBELL  |        142.66 |
+|          47 | FRANCES    | PARKER    |        108.78 |
+|          48 | ANN        | EVANS     |         76.83 |
+|          49 | JOYCE      | EDWARDS   |        130.72 |
+|          50 | DIANE      | COLLINS   |        169.65 |
++-------------+------------+-----------+---------------+
+50 rows in set (0.1568 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select a.customer_id, a.first_name, a.last_name, sum(b.amount) from customer a inner join payment b on a.customer_id = b.customer_id group by a.customer_id asc limit 50;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'asc limit 50' at line 1
+ MySQL  localhost:3306 ssl  sakila  SQL > select a.customer_id, a.first_name, a.last_name, sum(b.amount) from customer a inner join payment b on a.customer_id = b.customer_id group by a.customer_id dsc limit 50;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'dsc limit 50' at line 1
+ MySQL  localhost:3306 ssl  sakila  SQL > select a.customer_id, a.first_name, a.last_name, sum(b.amount) from customer a inner join payment b on a.customer_id = b.customer_id group by a.customer_id desc limit 50;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'desc limit 50' at line 1
+ MySQL  localhost:3306 ssl  sakila  SQL > select a.customer_id, a.first_name, a.last_name, sum(b.amount) from customer a inner join payment b on a.customer_id = b.customer_id group by a.customer_id limit 50 desc;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'desc' at line 1
+ MySQL  localhost:3306 ssl  sakila  SQL > select a.customer_id, a.first_name, a.last_name, sum(b.amount) from customer a inner join payment b on a.customer_id = b.customer_id group by desc a.customer_id limit 50;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'desc a.customer_id limit 50' at line 1
+ MySQL  localhost:3306 ssl  sakila  SQL > select a.customer_id, a.first_name, a.last_name, sum(b.amount) from customer a inner join payment b on a.customer_id = b.customer_id group by a.customer_id order by desc limit 50;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'desc limit 50' at line 1
+ MySQL  localhost:3306 ssl  sakila  SQL > select a.customer_id, a.first_name, a.last_name, sum(b.amount) from customer a inner join payment b on a.customer_id = b.customer_id group by a.customer_id order by sum(b.amount) desc limit 50;
++-------------+-------------+------------+---------------+
+| customer_id | first_name  | last_name  | sum(b.amount) |
++-------------+-------------+------------+---------------+
+|         526 | KARL        | SEAL       |        221.55 |
+|         148 | ELEANOR     | HUNT       |        216.54 |
+|         144 | CLARA       | SHAW       |        195.58 |
+|         137 | RHONDA      | KENNEDY    |        194.61 |
+|         178 | MARION      | SNYDER     |        194.61 |
+|         459 | TOMMY       | COLLAZO    |        186.62 |
+|         469 | WESLEY      | BULL       |        177.60 |
+|         468 | TIM         | CARY       |        175.61 |
+|         236 | MARCIA      | DEAN       |        175.58 |
+|         181 | ANA         | BRADLEY    |        174.66 |
+|         176 | JUNE        | CARROLL    |        173.63 |
+|          50 | DIANE       | COLLINS    |        169.65 |
+|         259 | LENA        | JENSEN     |        168.68 |
+|         522 | ARNOLD      | HAVENS     |        167.67 |
+|         410 | CURTIS      | IRBY       |        167.62 |
+|         403 | MIKE        | WAY        |        166.65 |
+|         295 | DAISY       | BATES      |        162.62 |
+|         209 | TONYA       | CHAPMAN    |        161.68 |
+|         373 | LOUIS       | LEONE      |        161.65 |
+|         470 | GORDON      | ALLARD     |        160.68 |
+|         187 | BRITTANY    | RILEY      |        159.72 |
+|         550 | GUY         | BROWNLEE   |        159.68 |
+|         462 | WARREN      | SHERROD    |        159.67 |
+|         267 | MARGIE      | WADE       |        159.64 |
+|         293 | MAE         | FLETCHER   |        158.69 |
+|         372 | STEVE       | MACKENZIE  |        158.66 |
+|         368 | HARRY       | ARCE       |        157.65 |
+|         273 | PRISCILLA   | LOWE       |        157.65 |
+|         346 | ARTHUR      | SIMPKINS   |        155.68 |
+|          21 | MICHELLE    | CLARK      |        155.65 |
+|          75 | TAMMY       | SANDERS    |        155.59 |
+|         197 | SUE         | PETERS     |        154.60 |
+|         119 | SHERRY      | MARSHALL   |        153.66 |
+|         532 | NEIL        | RENNER     |        152.68 |
+|         390 | SHAWN       | HEATON     |        152.67 |
+|          26 | JESSICA     | HALL       |        152.66 |
+|         274 | NAOMI       | JENNINGS   |        152.65 |
+|         506 | LESLIE      | SEWARD     |        152.65 |
+|         366 | BRANDON     | HUEY       |        152.63 |
+|           7 | MARIA       | MILLER     |        151.67 |
+|         454 | ALEX        | GRESHAM    |        151.67 |
+|         211 | STACEY      | MONTGOMERY |        151.66 |
+|         196 | ALMA        | AUSTIN     |        151.65 |
+|         439 | ALEXANDER   | FENNELL    |        151.64 |
+|         257 | MARSHA      | DOUGLAS    |        151.63 |
+|         360 | RALPH       | MADRIGAL   |        150.66 |
+|         371 | BILLY       | POULIN     |        149.65 |
+|         513 | DUANE       | TUBBS      |        148.69 |
+|          86 | JACQUELINE  | LONG       |        148.67 |
+|         309 | CHRISTOPHER | GRECO      |        147.69 |
++-------------+-------------+------------+---------------+
+50 rows in set (0.8001 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select a.customer_id, a.first_name, a.last_name, sum(b.amount) from customer a inner join payment b on a.customer_id = b.customer_id group by a.customer_id order by sum(b.amount) desc limit 1;
++-------------+------------+-----------+---------------+
+| customer_id | first_name | last_name | sum(b.amount) |
++-------------+------------+-----------+---------------+
+|         526 | KARL       | SEAL      |        221.55 |
++-------------+------------+-----------+---------------+
+1 row in set (0.8341 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select a.customer_id, a.first_name, a.last_name, sum(b.amount) from customer a inner join payment b on a.customer_id = b.customer_id group by a.customer_id order by sum(b.amount) asc limit 1;
++-------------+------------+-----------+---------------+
+| customer_id | first_name | last_name | sum(b.amount) |
++-------------+------------+-----------+---------------+
+|         248 | CAROLINE   | BOWMAN    |         50.85 |
++-------------+------------+-----------+---------------+
+1 row in set (0.1543 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select a.customer_id, a.first_name, a.last_name, sum(b.amount) from customer a inner join payment b on a.customer_id = b.customer_id group by a.customer_id order by sum(b.amount) desc limit 1
+                                       -> UNION select a.customer_id, a.first_name, a.last_name, sum(b.amount) from customer a inner join payment b on a.customer_id = b.customer_id group by a.customer_id order by sum(b.amount) asc limit 1;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'UNION select a.customer_id, a.first_name, a.last_name, sum(b.amount) from custom' at line 2
+ MySQL  localhost:3306 ssl  sakila  SQL > use world;
+Default schema set to `world`.
+Fetching global names, object names from `world` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  world  SQL > desc city
+                                      -> ;
++-------------+----------+------+-----+---------+----------------+
+| Field       | Type     | Null | Key | Default | Extra          |
++-------------+----------+------+-----+---------+----------------+
+| ID          | int      | NO   | PRI | NULL    | auto_increment |
+| Name        | char(35) | NO   |     |         |                |
+| CountryCode | char(3)  | NO   | MUL |         |                |
+| District    | char(20) | NO   |     |         |                |
+| Population  | int      | NO   |     | 0       |                |
++-------------+----------+------+-----+---------+----------------+
+5 rows in set (0.0404 sec)
+ MySQL  localhost:3306 ssl  world  SQL > desc country;
++----------------+---------------------------------------------------------------------------------------+------+-----+---------+-------+
+| Field          | Type                                                                                  | Null | Key | Default | Extra |
++----------------+---------------------------------------------------------------------------------------+------+-----+---------+-------+
+| Code           | char(3)                                                                               | NO   | PRI |         |       |
+| Name           | char(52)                                                                              | NO   |     |         |       |
+| Continent      | enum('Asia','Europe','North America','Africa','Oceania','Antarctica','South America') | NO   |     | Asia    |       |
+| Region         | char(26)                                                                              | NO   |     |         |       |
+| SurfaceArea    | decimal(10,2)                                                                         | NO   |     | 0.00    |       |
+| IndepYear      | smallint                                                                              | YES  |     | NULL    |       |
+| Population     | int                                                                                   | NO   |     | 0       |       |
+| LifeExpectancy | decimal(3,1)                                                                          | YES  |     | NULL    |       |
+| GNP            | decimal(10,2)                                                                         | YES  |     | NULL    |       |
+| GNPOld         | decimal(10,2)                                                                         | YES  |     | NULL    |       |
+| LocalName      | char(45)                                                                              | NO   |     |         |       |
+| GovernmentForm | char(45)                                                                              | NO   |     |         |       |
+| HeadOfState    | char(60)                                                                              | YES  |     | NULL    |       |
+| Capital        | int                                                                                   | YES  |     | NULL    |       |
+| Code2          | char(2)                                                                               | NO   |     |         |       |
++----------------+---------------------------------------------------------------------------------------+------+-----+---------+-------+
+15 rows in set (0.0096 sec)
+ MySQL  localhost:3306 ssl  world  SQL > select a.code, a.name, sum(b.Population) from country a inner join city b on a.country_id = b.city_id group by a.country_id order by sum(b.Population) desc limit 50;
+ERROR: 1054 (42S22): Unknown column 'a.country_id' in 'on clause'
+ MySQL  localhost:3306 ssl  world  SQL > select a.code, a.name, sum(b.Population) from country a inner join city b on a.code = b.city_id group by a.code order by sum(b.Population) desc limit 50;
+ERROR: 1054 (42S22): Unknown column 'b.city_id' in 'on clause'
+ MySQL  localhost:3306 ssl  world  SQL > select a.code, a.name, sum(b.Population) from country a inner join city b on a.code = b.ID group by a.code order by sum(b.Population) desc limit 50;
+Empty set (0.4011 sec)
+ MySQL  localhost:3306 ssl  world  SQL > select a.name, count(b.name) from country a inner join city b on a.code = b.countrycode group by a.code order by count(b.name) desc limit 50;
++---------------------------------------+---------------+
+| name                                  | count(b.name) |
++---------------------------------------+---------------+
+| China                                 |           363 |
+| India                                 |           341 |
+| United States                         |           274 |
+| Brazil                                |           250 |
+| Japan                                 |           248 |
+| Russian Federation                    |           189 |
+| Mexico                                |           173 |
+| Philippines                           |           136 |
+| Germany                               |            93 |
+| Indonesia                             |            85 |
+| United Kingdom                        |            81 |
+| South Korea                           |            70 |
+| Iran                                  |            67 |
+| Nigeria                               |            64 |
+| Turkey                                |            62 |
+| Pakistan                              |            59 |
+| Spain                                 |            59 |
+| Italy                                 |            58 |
+| Ukraine                               |            57 |
+| Argentina                             |            57 |
+| Canada                                |            49 |
+| Poland                                |            44 |
+| South Africa                          |            44 |
+| Taiwan                                |            42 |
+| Venezuela                             |            41 |
+| France                                |            40 |
+| Colombia                              |            38 |
+| Egypt                                 |            37 |
+| Chile                                 |            29 |
+| Romania                               |            29 |
+| Netherlands                           |            28 |
+| Bangladesh                            |            24 |
+| Saudi Arabia                          |            24 |
+| Morocco                               |            22 |
+| Peru                                  |            22 |
+| Vietnam                               |            22 |
+| Kazakstan                             |            21 |
+| Algeria                               |            18 |
+| Malaysia                              |            18 |
+| Congo, The Democratic Republic of the |            18 |
+| Uzbekistan                            |            17 |
+| Belarus                               |            16 |
+| Myanmar                               |            16 |
+| Iraq                                  |            15 |
+| Sweden                                |            15 |
+| Ecuador                               |            15 |
+| Australia                             |            14 |
+| Israel                                |            14 |
+| Cuba                                  |            14 |
+| North Korea                           |            13 |
++---------------------------------------+---------------+
+50 rows in set (0.6020 sec)
+ MySQL  localhost:3306 ssl  world  SQL > select a.name, count(b.name) from country a inner join city b on a.code = b.countrycode group by a.code order by count(b.name) asc limit 50;
++--------------------------+---------------+
+| name                     | count(b.name) |
++--------------------------+---------------+
+| Aruba                    |             1 |
+| Guyana                   |             1 |
+| Equatorial Guinea        |             1 |
+| Macao                    |             1 |
+| Albania                  |             1 |
+| Andorra                  |             1 |
+| Netherlands Antilles     |             1 |
+| Guinea-Bissau            |             1 |
+| Djibouti                 |             1 |
+| Iceland                  |             1 |
+| Northern Mariana Islands |             1 |
+| Antigua and Barbuda      |             1 |
+| Gabon                    |             1 |
+| Guinea                   |             1 |
+| Macedonia                |             1 |
+| Burundi                  |             1 |
+| Faroe Islands            |             1 |
+| Cayman Islands           |             1 |
+| Liberia                  |             1 |
+| Montserrat               |             1 |
+| Fiji Islands             |             1 |
+| Bahrain                  |             1 |
+| Bahamas                  |             1 |
+| Saint Kitts and Nevis    |             1 |
+| Western Sahara           |             1 |
+| Mayotte                  |             1 |
+| Martinique               |             1 |
+| Mali                     |             1 |
+| Falkland Islands         |             1 |
+| Barbados                 |             1 |
+| Brunei                   |             1 |
+| Bhutan                   |             1 |
+| Lesotho                  |             1 |
+| Central African Republic |             1 |
+| Dominica                 |             1 |
+| Maldives                 |             1 |
+| Grenada                  |             1 |
+| Gibraltar                |             1 |
+| Marshall Islands         |             1 |
+| Greenland                |             1 |
+| French Guiana            |             1 |
+| Eritrea                  |             1 |
+| Mongolia                 |             1 |
+| Cook Islands             |             1 |
+| Luxembourg               |             1 |
+| Comoros                  |             1 |
+| Cape Verde               |             1 |
+| Costa Rica               |             1 |
+| Saint Lucia              |             1 |
+| Christmas Island         |             1 |
++--------------------------+---------------+
+50 rows in set (1.0236 sec)
+ MySQL  localhost:3306 ssl  world  SQL > select a.name, count(b.name) from country a inner join city b on a.code = b.countrycode group by a.code order by count(b.name) asc limit 1;
++-------+---------------+
+| name  | count(b.name) |
++-------+---------------+
+| Aruba |             1 |
++-------+---------------+
+1 row in set (0.0594 sec)
+ MySQL  localhost:3306 ssl  world  SQL > select a.name, count(b.name) from country a inner join city b on a.code = b.countrycode group by a.code order by count(b.name) desc limit 1;
++-------+---------------+
+| name  | count(b.name) |
++-------+---------------+
+| China |           363 |
++-------+---------------+
+1 row in set (0.0538 sec)
+ MySQL  localhost:3306 ssl  world  SQL > select count(*) from city where countrycode = "MEX";
++----------+
+| count(*) |
++----------+
+|      173 |
++----------+
+1 row in set (0.1815 sec)
+ MySQL  localhost:3306 ssl  world  SQL > select a.name, coun(*) as total from country a inner join city b on a.code = b.countrycode groub by a.code limit = 1;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '*) as total from country a inner join city b on a.code = b.countrycode groub by ' at line 1
+ MySQL  localhost:3306 ssl  world  SQL > select a.name, coun(*) from country a inner join city b on a.code = b.countrycode groub by a.code limit = 1;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '*) from country a inner join city b on a.code = b.countrycode groub by a.code li' at line 1
+ MySQL  localhost:3306 ssl  world  SQL > select a.name, count(*) from country a inner join city b on a.code = b.countrycode groub by a.code limit = 1;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'groub by a.code limit = 1' at line 1
+ MySQL  localhost:3306 ssl  world  SQL > select a.name, count(*) from country a inner join city b on a.code = b.countrycode group by a.code order by counter(*) limit = 1;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '*) limit = 1' at line 1
+ MySQL  localhost:3306 ssl  world  SQL > select a.name, count(*) from country a inner join city b on a.code = b.countrycode group by a.code order by count(*) limit = 1;
+
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= 1' at line 1
+ MySQL  localhost:3306 ssl  world  SQL > select a.name, count(*) from country a inner join city b on a.code = b.countrycode group by a.code order by count(*) limit=1;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=1' at line 1
+ MySQL  localhost:3306 ssl  world  SQL > select a.name, count(*) from country a inner join city b on a.code = b.countrycode group by a.code order by count(*) desc limit=1;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=1' at line 1
+ MySQL  localhost:3306 ssl  world  SQL > select a.name, count(*) from country a inner join city b on a.code = b.countrycode group by a.code order by count(*) desc limit= 1;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= 1' at line 1
+ MySQL  localhost:3306 ssl  world  SQL > select a.name, count(*) from country a inner join city b on a.code = b.countrycode group by a.code order by count(*) desc limit 1;
++-------+----------+
+| name  | count(*) |
++-------+----------+
+| China |      363 |
++-------+----------+
+1 row in set (0.0209 sec)
+ MySQL  localhost:3306 ssl  world  SQL > select a.name, count(*) from country a inner join city b on a.code = b.countrycode group by a.code order by count(*) asc limit 1;
++-------+----------+
+| name  | count(*) |
++-------+----------+
+| Aruba |        1 |
++-------+----------+
+1 row in set (0.0200 sec)
+ MySQL  localhost:3306 ssl  world  SQL >
+
+
+
